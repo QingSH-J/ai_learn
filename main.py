@@ -47,7 +47,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 X, y = load_diabetes(return_X_y=True)
 
 X = X[:, [2]]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=20, shuffle=False)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=40, shuffle=False)
 model = LinearRegression()
 model.fit(X_train, y_train)
 
