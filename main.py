@@ -39,26 +39,26 @@
 # df["age"].hist()
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import accuracy_score
-
-iris = load_iris()
-X = iris.data
-y = iris.target
-
-tree = DecisionTreeRegressor()
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-tree.fit(X_train, y_train)
-
-y_pre = tree.predict(X_test)
-
-accuracy = accuracy_score(y_test, y_pre)
-
-print(accuracy)
+# from sklearn.datasets import load_iris
+# from sklearn.model_selection import train_test_split
+# from sklearn.tree import DecisionTreeRegressor
+# from sklearn.metrics import accuracy_score
+#
+# iris = load_iris()
+# X = iris.data
+# y = iris.target
+#
+# tree = DecisionTreeRegressor()
+#
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+#
+# tree.fit(X_train, y_train)
+#
+# y_pre = tree.predict(X_test)
+#
+# accuracy = accuracy_score(y_test, y_pre)
+#
+# print(accuracy)
 
 #
 # X, y = load_diabetes(return_X_y=True)
@@ -93,3 +93,40 @@ print(accuracy)
 # fig.suptitle("Linear Regression")
 #
 # plt.show()
+import matplotlib.pyplot as plt
+
+from sklearn import svm
+from sklearn.datasets import make_blobs
+from sklearn.inspection import DecisionBoundaryDisplay
+
+# we create 40 separable points
+X, y = make_blobs(n_samples=40, centers=2, random_state=6)
+
+# fit the model, don't regularize for illustration purposes
+clf = svm.SVC(kernel="linear", C=1000)
+clf.fit(X, y)
+
+plt.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap=plt.cm.Paired)
+
+# plot the decision function
+ax = plt.gca()
+DecisionBoundaryDisplay.from_estimator(
+    clf,
+    X,
+    plot_method="contour",
+    colors="k",
+    levels=[-1, 0, 1],
+    alpha=0.5,
+    linestyles=["--", "-", "--"],
+    ax=ax,
+)
+# plot support vectors
+ax.scatter(
+    clf.support_vectors_[:, 0],
+    clf.support_vectors_[:, 1],
+    s=100,
+    linewidth=1,
+    facecolors="none",
+    edgecolors="k",
+)
+plt.show()
