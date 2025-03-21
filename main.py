@@ -93,40 +93,73 @@ import numpy as np
 # fig.suptitle("Linear Regression")
 #
 # plt.show()
+# import matplotlib.pyplot as plt
+#
+# from sklearn import svm
+# from sklearn.datasets import make_blobs
+# from sklearn.inspection import DecisionBoundaryDisplay
+#
+# # we create 40 separable points
+# X, y = make_blobs(n_samples=40, centers=2, random_state=6)
+#
+# # fit the model, don't regularize for illustration purposes
+# clf = svm.SVC(kernel="linear", C=1000)
+# clf.fit(X, y)
+#
+# plt.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap=plt.cm.Paired)
+#
+# # plot the decision function
+# ax = plt.gca()
+# DecisionBoundaryDisplay.from_estimator(
+#     clf,
+#     X,
+#     plot_method="contour",
+#     colors="k",
+#     levels=[-1, 0, 1],
+#     alpha=0.5,
+#     linestyles=["--", "-", "--"],
+#     ax=ax,
+# )
+# # plot support vectors
+# ax.scatter(
+#     clf.support_vectors_[:, 0],
+#     clf.support_vectors_[:, 1],
+#     s=100,
+#     linewidth=1,
+#     facecolors="none",
+#     edgecolors="k",
+# )
+# plt.show()
+import numpy as np
+from sklearn.tree import DecisionTreeRegressor
 import matplotlib.pyplot as plt
 
-from sklearn import svm
-from sklearn.datasets import make_blobs
-from sklearn.inspection import DecisionBoundaryDisplay
+# Create a random dataset
+rng = np.random.RandomState(1)
+X = np.sort(5 * rng.rand(80, 1), axis=0)
+y = np.sin(X).ravel()
+y[::5] += 3 * (0.5 - rng.rand(16))
 
-# we create 40 separable points
-X, y = make_blobs(n_samples=40, centers=2, random_state=6)
+# Fit regression model
+regr_1 = DecisionTreeRegressor(max_depth=2)
+regr_2 = DecisionTreeRegressor(max_depth=5)
+regr_1.fit(X, y)
+regr_2.fit(X, y)
 
-# fit the model, don't regularize for illustration purposes
-clf = svm.SVC(kernel="linear", C=1000)
-clf.fit(X, y)
+# Predict
+X_test = np.arange(0.0, 5.0, 0.01)[:, np.newaxis]
+y_1 = regr_1.predict(X_test)
+y_2 = regr_2.predict(X_test)
 
-plt.scatter(X[:, 0], X[:, 1], c=y, s=30, cmap=plt.cm.Paired)
-
-# plot the decision function
-ax = plt.gca()
-DecisionBoundaryDisplay.from_estimator(
-    clf,
-    X,
-    plot_method="contour",
-    colors="k",
-    levels=[-1, 0, 1],
-    alpha=0.5,
-    linestyles=["--", "-", "--"],
-    ax=ax,
-)
-# plot support vectors
-ax.scatter(
-    clf.support_vectors_[:, 0],
-    clf.support_vectors_[:, 1],
-    s=100,
-    linewidth=1,
-    facecolors="none",
-    edgecolors="k",
-)
+# Plot the results
+plt.figure()
+plt.scatter(X, y, s=20, edgecolor="black",
+            c="darkorange", label="data")
+plt.plot(X_test, y_1, color="cornflowerblue",
+         label="max_depth=2", linewidth=2)
+plt.plot(X_test, y_2, color="yellowgreen", label="max_depth=5", linewidth=2)
+plt.xlabel("data")
+plt.ylabel("target")
+plt.title("Decision Tree Regression")
+plt.legend()
 plt.show()
