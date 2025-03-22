@@ -363,33 +363,53 @@ import numpy as np
 # plt.tight_layout()
 # plt.show()
 
+# import torch
+#
+#
+# def f(x, y):
+#     return x ** 2 + y ** 4 + 2
+#
+#
+# def calculate():
+#     n = 10000  # 增加迭代次数
+#     alpha = 0.1  # 增加学习率
+#     x = torch.tensor([1.1], requires_grad=True)
+#     y = torch.tensor([2.2], requires_grad=True)
+#
+#     print(f'起始点: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
+#
+#     for i in range(1, n + 1):
+#         z = f(x, y)
+#         z.backward()
+#         x.data -= alpha * x.grad.data
+#         y.data -= alpha * y.grad.data
+#
+#         x.grad.zero_()
+#         y.grad.zero_()
+#
+#         print(f'迭代 {i}: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
+#
+#     print(f'最终结果: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
+#
+#
+# calculate()
+
+
 import torch
 
-
-def f(x, y):
-    return x ** 2 + y ** 4 + 2
-
+def f(x):
+    return 2 * x ** 2 + 3 * x - 4;
 
 def calculate():
-    n = 10000  # 增加迭代次数
-    alpha = 0.1  # 增加学习率
     x = torch.tensor([1.1], requires_grad=True)
-    y = torch.tensor([2.2], requires_grad=True)
-
-    print(f'起始点: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
-
+    y = torch.tensor([2.1], requires_grad=True)
+    n = 1000
+    alpha = 0.1
     for i in range(1, n + 1):
-        z = f(x, y)
+        z = f(x)
         z.backward()
         x.data -= alpha * x.grad.data
-        y.data -= alpha * y.grad.data
-
         x.grad.zero_()
-        y.grad.zero_()
-
-        print(f'迭代 {i}: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
-
-    print(f'最终结果: x = {x.item():.6f}, y = {y.item():.6f}, f(x,y) = {f(x, y).item():.6f}')
-
+        print(f'迭代 {i}: x = {x.item():.6f}, f(x) = {f(x).item():.6f}')
 
 calculate()
